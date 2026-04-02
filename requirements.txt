@@ -1,0 +1,16 @@
+torch
+torchvision
+torchaudio
+diffusers
+transformers
+accelerate
+librosa
+scipy
+numpy
+huggingface_hub
+torchsde
+datasets
+tqdm
+soundfile
+torchcodec
+pydub

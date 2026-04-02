@@ -1,0 +1,6 @@
+neuro/
+real/
+.venv/
+token.txt
+.vscode/
+__pycache__/
