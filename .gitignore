@@ -4,3 +4,5 @@ real/
 token.txt
 .vscode/
 __pycache__/
+features_neuro_data/
+features_real_data/
