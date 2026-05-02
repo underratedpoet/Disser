@@ -6,3 +6,8 @@ token.txt
 __pycache__/
 features_neuro_data/
 features_real_data/
+dataset_state.json
+src/raw_model_weights.pth
+*.flac
+*.wav
+raw_model_weights.pth
