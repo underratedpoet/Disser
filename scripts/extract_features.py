@@ -6,7 +6,7 @@ from tqdm import tqdm
 from multiprocessing import Pool, Process, cpu_count
 import pyarrow as pa
 
-from feature_utils import *
+from explainable.feature_utils import *
 
 # =========================
 # CONFIG

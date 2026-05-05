@@ -2,6 +2,7 @@ import numpy as np
 import librosa
 import scipy.stats
 from scipy.fftpack import dct
+import torch
 
 
 # =========================
@@ -130,3 +131,59 @@ def compute_temporal_connectivity(matrix):
             correlations.append(corr)
             
     return np.array(correlations)
+
+def extract_features_40(path, target_frames=2584):
+    # Загружаем стерео
+    y, sr = librosa.load(path, sr=44100, mono=False)
+    if y.ndim == 1: y = np.vstack([y, y])
+    
+    n_fft = 2048
+    hop_length = 512
+    bands = get_log_bands(sr, n_fft, n_bands=40)
+    
+    feature_matrix = []
+
+    def get_band_series(matrix, band_idx):
+        idx = bands[band_idx]
+        return np.mean(matrix[idx, :], axis=0)
+
+    for ch in [0, 1]:
+        # 1. MGD (самые важные полосы из твоего ТОП-20) - 8 признаков
+        mgd = compute_mgd(y[ch], sr, n_fft=n_fft)
+        for b in [39, 38, 37, 33, 32, 31, 30, 28]: 
+            feature_matrix.append(get_band_series(mgd, b))
+        
+        # 2. CQCC (коэффициенты 1 и 2) - 2 признака
+        cqcc = compute_cqcc(y[ch], sr, n_cqcc=3)
+        feature_matrix.append(cqcc[1, :])
+        feature_matrix.append(cqcc[2, :])
+        
+        # 3. Энергия и Динамика - 2 признака
+        rms = librosa.feature.rms(y=y[ch], hop_length=hop_length)[0]
+        feature_matrix.append(rms)
+        # Прокси для DR
+        feature_matrix.append(np.abs(y[ch].max() - rms * np.ones_like(rms))) 
+
+        # 4. Спектральные компоненты - 4 признака
+        stft = librosa.stft(y[ch], n_fft=n_fft, hop_length=hop_length)
+        mag = np.abs(stft)
+        feature_matrix.append(get_band_series(mag, 39))
+        feature_matrix.append(get_band_series(np.real(stft), 11))
+        feature_matrix.append(get_band_series(np.real(stft), 0))
+        feature_matrix.append(get_band_series(np.imag(stft), 8))
+        
+        # 5. Дополнительные полосы MGD для ровного счета - ТЕПЕРЬ 4 признака
+        # Добавил полосу 29, чтобы в сумме было 20 на канал
+        for b in [36, 35, 34, 29]:
+            feature_matrix.append(get_band_series(mgd, b))
+
+    # Итого: (8 + 2 + 2 + 4 + 4) * 2 канала = 40 признаков
+    final_feats = np.array(feature_matrix)
+    
+    # Нормализация длины
+    if final_feats.shape[1] < target_frames:
+        final_feats = np.pad(final_feats, ((0, 0), (0, target_frames - final_feats.shape[1])), mode='constant')
+    else:
+        final_feats = final_feats[:, :target_frames]
+
+    return torch.FloatTensor(final_feats)
