@@ -180,10 +180,11 @@ def extract_features_40(path, target_frames=2584):
     # Итого: (8 + 2 + 2 + 4 + 4) * 2 канала = 40 признаков
     final_feats = np.array(feature_matrix)
     
-    # Нормализация длины
-    if final_feats.shape[1] < target_frames:
-        final_feats = np.pad(final_feats, ((0, 0), (0, target_frames - final_feats.shape[1])), mode='constant')
-    else:
-        final_feats = final_feats[:, :target_frames]
+    # Нормализация длины (делаем только если target_frames передан)
+    if target_frames is not None:
+        if final_feats.shape[1] < target_frames:
+            final_feats = np.pad(final_feats, ((0, 0), (0, target_frames - final_feats.shape[1])), mode='constant')
+        else:
+            final_feats = final_feats[:, :target_frames]
 
     return torch.FloatTensor(final_feats)

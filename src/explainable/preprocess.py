@@ -2,7 +2,7 @@ import os
 import torch
 import numpy as np
 from tqdm import tqdm
-from feature_utils import extract_features_40 # Твоя исправленная функция
+from feature_utils import extract_features_40 
 
 def preprocess_data(src_base, dst_base):
     for category in ['real', 'neuro']:
@@ -19,7 +19,7 @@ def preprocess_data(src_base, dst_base):
             src_path = os.path.join(src_dir, filename)
             dst_path = os.path.join(dst_dir, filename.replace('.flac', '.pt'))
             
-            if os.path.exists(dst_path): continue # Пропускаем уже готовые
+            if os.path.exists(dst_path): continue
             
             try:
                 # Извлекаем признаки (уже тензор 40x2584)

@@ -10,4 +10,9 @@ dataset_state.json
 src/raw_model_weights.pth
 *.flac
 *.wav
+*.mp3
 raw_model_weights.pth
+logs.txt
+tcn_audio_model.pth
+balanced_feature_importance.csv
+features_db/

@@ -15,3 +15,4 @@ soundfile
 torchcodec
 pydub
 fastparquet
+matplotlib
