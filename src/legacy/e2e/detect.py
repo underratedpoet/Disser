@@ -146,7 +146,7 @@ if __name__ == "__main__":
     detector = SimpleAudioDetector(MY_WEIGHTS)
     
     # Файл для проверки (измени на свой)
-    target_audio = "test_real_4.flac"
+    target_audio = "test_neuro_4.flac"
     
     if os.path.exists(target_audio):
         print(f"\nАнализируем: {target_audio}")

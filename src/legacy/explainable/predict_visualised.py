@@ -27,8 +27,8 @@ from PyQt5.QtGui import QColor, QPen, QBrush
 # YOUR MODULES (DO NOT CHANGE)
 # =========================================================
 
-from model import AudioTCN
-from feature_utils import (
+from legacy.explainable.model import AudioTCN
+from legacy.explainable.feature_utils import (
     extract_features_40,
     get_log_bands,
     compute_mgd,

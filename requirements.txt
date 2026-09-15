@@ -16,3 +16,4 @@ torchcodec
 pydub
 fastparquet
 matplotlib
+spafe

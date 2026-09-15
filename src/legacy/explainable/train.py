@@ -4,7 +4,7 @@ import random
 import torch
 from torch import nn, optim
 from torch.utils.data import Dataset, DataLoader
-from model import AudioTCN
+from legacy.explainable.model import AudioTCN
 
 # =========================
 # CONFIG

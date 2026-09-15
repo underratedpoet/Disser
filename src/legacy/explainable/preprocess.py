@@ -2,7 +2,7 @@ import os
 import torch
 import numpy as np
 from tqdm import tqdm
-from feature_utils import extract_features_40 
+from legacy.explainable.feature_utils import extract_features_40 
 
 def preprocess_data(src_base, dst_base):
     for category in ['real', 'neuro']:

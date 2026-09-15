@@ -1,8 +1,8 @@
 import os
 import torch
 import numpy as np
-from model import AudioTCN
-from feature_utils import extract_features_40
+from legacy.explainable.model import AudioTCN
+from legacy.explainable.feature_utils import extract_features_40
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 MODEL_PATH = "tcn_audio_model.pth"

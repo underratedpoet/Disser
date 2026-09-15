@@ -16,3 +16,7 @@ logs.txt
 tcn_audio_model.pth
 balanced_feature_importance.csv
 features_db/
+*.png
+*.7z
+*.csv
+*.parquet
